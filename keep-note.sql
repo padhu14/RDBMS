@@ -1,125 +1,40 @@
--- create database testdb;
-
--- use testdb;
-
-DROP TABLE IF EXISTS USER;
-
-CREATE TABLE  USER (
-    user_id varchar(20) PRIMARY KEY,
-    user_name VARCHAR(50) NOT NULL,
-    user_added_date datetime,
-    user_password VARCHAR(50),
-    user_mobile NUMERIC(10)
-);
-
-DROP TABLE IF EXISTS NOTE;
-CREATE TABLE NOTE (
-    note_id varchar(20) PRIMARY KEY,
-    note_title VARCHAR(100),
-    note_content VARCHAR(1000),
-    note_status VARCHAR(50),
-    note_creation_date datetime
-);
-
-DROP TABLE IF EXISTS CATEGORY;
-CREATE TABLE CATEGORY (
-    category_id varchar(20) PRIMARY KEY,
-    category_name VARCHAR(100) NOT NULL,
-    category_descr VARCHAR(1000),
-    category_creation_date datetime,
-    category_creator VARCHAR(50)
-);
-
-DROP TABLE IF EXISTS REMINDER;
-CREATE TABLE REMINDER (
-    reminder_id varchar(20) PRIMARY KEY,
-    reminder_name VARCHAR(100) NOT NULL,
-    reminder_descr VARCHAR(1000),
-    reminder_type VARCHAR(50),
-    reminder_creation_date datetime,
-    reminder_creator VARCHAR(50)
-);
-
-DROP TABLE IF EXISTS NoteCategory;
-CREATE TABLE NoteCategory (
-    notecategory_id varchar(20) PRIMARY KEY,
-    note_id varchar(20),
-    category_id varchar(20),
-    FOREIGN KEY (note_id)
-        REFERENCES NOTE (note_id),
-    FOREIGN KEY (category_id)
-        REFERENCES CATEGORY (category_id)
-);
-
-DROP TABLE IF EXISTS Notereminder;
-CREATE TABLE Notereminder (
-    notereminder_id varchar(20) PRIMARY KEY,
-    note_id varchar(20),
-    reminder_id varchar(20),
-    FOREIGN KEY (note_id)
-        REFERENCES NOTE (note_id),
-    FOREIGN KEY (reminder_id)
-        REFERENCES REMINDER (reminder_id)
-);
-
-DROP TABLE IF EXISTS usernote;
-CREATE TABLE usernote (
-    usernote_id varchar(20) PRIMARY KEY,
-    user_id varchar(20),
-    note_id varchar(20),
-    FOREIGN KEY (note_id)
-        REFERENCES NOTE (note_id),
-    FOREIGN KEY (user_id)
-        REFERENCES USER (user_id)
-);
-
-INSERT into USER(user_id, user_name, user_password, user_mobile) values (1,'Rupa Devi','xyz',6565265);
-
-INSERT into NOTE(note_id, note_title, note_content, note_status) values (1,'class notes','fsdafjbkfjbkdbfkdbfkdbfksdbfkdsbfjkbdjfbd','in-progress');
-
-insert into CATEGORY(category_id, category_name, category_descr, category_creator)
-values (1,'Studies','notes about class','Rupa Devi');
-
-INSERT INTO REMINDER(reminder_id, reminder_name, reminder_descr, reminder_type,  reminder_creator)
-values (1,'Morning reminder','remind me in everyday morning','DAILY','Rupa Devi');
-
-insert into NoteCategory(notecategory_id, note_id, category_id) values(1,1,1);
-
-insert into Notereminder(notereminder_id, note_id, reminder_id) values(1,1,1);
-
-insert into usernote(usernote_id, user_id, note_id) values(1,1,1);
-
-SELECT * FROM USER where user_id = 'Rupa Devi' and user_password = 'xyz';
-    
-SELECT * FROM NOTE where note_creation_date = '2019-11-27 13:30:29';   
-    
-select * From CATEGORY where category_creation_date > '2019-01-01 00:00:00';
-
-select note_id from usernote where user_id = '1';
-
-update NOTE set note_content= ''  where note_id = '1';
-
-select * from NOTE n join usernote un on un.note_id = n.note_id where un.user_id = '1';
-
-select * from NOTE n join NoteCategory nc on nc.note_id = n.note_id where nc.category_id = '1';
-
-Select * from REMINDER r join Notereminder nr on r.reminder_id = nr.reminder_id where nr.note_id = '1';
-
-Select * from REMINDER  where reminder_id = '1';
-
-INSERT into NOTE(note_id, note_title, note_content, note_status) values (2,'class notes2','fsdafjbkfjbkdbfkdbfkdbfksdbfkdsbfjkbdjfbd','in-progress');
-
-insert into usernote(usernote_id, user_id, note_id) values(2,1,2);
-
-INSERT into NOTE(note_id, note_title, note_content, note_status) values (3,'class notes3','fsdafjbkfjbkdbfkdbfkdbfksdbfkdsbfjkbdjfbd','in-progress');
-
-insert into NoteCategory(notecategory_id, note_id, category_id) values(3,1,1);
-
-INSERT INTO REMINDER(reminder_id, reminder_name, reminder_descr, reminder_type,  reminder_creator)
-values (2,'Afternoon reminder','remind me in everyday afternoon','DAILY','Rupa Devi');
-
-insert into Notereminder(notereminder_id, note_id, reminder_id) values(1,2,2);
-
+create database qwe1;
+use qwe1;
+create table User(user_id varchar(10), user_name varchar(20), user_added_date datetime, user_password varchar(20), user_mobile varchar(10), PRIMARY KEY (user_id));
+create table Note(note_id int, note_title varchar(20), note_content varchar(100), note_status varchar(10), note_creation_date datetime, PRIMARY KEY (note_id));
+create table Category(category_id int, category_name varchar(20), category_descr varchar(100), category_creation_date datetime, category_creator varchar(20), PRIMARY KEY (category_id));
+create table Reminder(reminder_id int, reminder_name varchar(20), reminder_descr varchar(100), reminder_type varchar(20), reminder_creation_date datetime, reminder_creator varchar(20), PRIMARY KEY (reminder_id));
+create table UserNote(usernote_id int PRIMARY KEY, user_id varchar(10), note_id int, FOREIGN KEY (user_id) REFERENCES User(user_id), FOREIGN KEY (note_id) REFERENCES Note(note_id));
+create table NoteReminder(notereminder_id int PRIMARY KEY, note_id int, reminder_id int, FOREIGN KEY (reminder_id) REFERENCES Reminder(reminder_id), FOREIGN KEY (note_id) REFERENCES Note(note_id));
+create table NoteCategory(notecategory_id int PRIMARY KEY, note_id int, category_id int, FOREIGN KEY (category_id) REFERENCES Category(category_id), FOREIGN KEY (note_id) REFERENCES Note(note_id));
+insert into User values("1", "Dpk", '2018-06-15', "root", "8680853912");
+insert into User values("2", "Abc", '2018-06-14', "root1", "8680853911");
+insert into Note values(1, "Note1", "This is note1", "1", "2018-06-15");
+insert into Note values(2, "Note2", "This is note2", "2", "2018-06-14");
+insert into Category values(1, "Cat1", "This is cat1", "2018-06-15", "Dpk");
+insert into Category values(2, "Cat2", "This is cat2", "2018-06-14", "Abc");
+insert into Reminder values(1, "Rem1", "This is rem1", "type1", "2018-06-15", "Dpk");
+insert into Reminder values(2, "Rem2", "This is rem2", "type2", "2018-06-14", "Abc");
+insert into UserNote values(100, "1", 1);
+insert into UserNote values(200, "2", 2);
+insert into NoteReminder values(1, 1, 1);
+insert into NoteReminder values(2, 2, 2);
+insert into NoteCategory values(1, 1, 1);
+insert into NoteCategory values(2, 2, 2);
+select * from User where user_id=1 AND user_password="root";
+select * from Note where note_creation_date="2018-06-15";
+select * from Category where category_creation_date>"2018-06-14";
+select note_id from UserNote where user_id=1;
+update Note set note_title="Note01", note_content="This is note01", note_status=false, note_creation_date="2017-06-15" where note_id = 1;
+SELECT * FROM Note INNER JOIN UserNote ON Note.note_id=UserNote.note_id where UserNote.user_id=2;
+SELECT * FROM Note INNER JOIN NoteCategory ON Note.note_id=NoteCategory.note_id where NoteCategory.category_id=2;
+SELECT * FROM Reminder INNER JOIN NoteReminder ON NoteReminder.reminder_id=Reminder.reminder_id where NoteReminder.note_id=2;
+select* from Reminder where reminder_id=1;
+insert into Note values(4, "Note4", "This is note4", "0", "2018-06-19");
+insert into Note values(5, "Note5", "This is note5", "0", "2018-06-20");
+insert into NoteCategory values(3,2,2);
+insert into Reminder values(3, "Rem3", "This is rem3", "type1", "2018-06-10", "Dpk");
+insert into NoteReminder values(3, 2,2);
 delete from UserNote where note_id=1;
 delete from NoteReminder where note_id=1;
 delete from NoteCategory where note_id=1;
@@ -128,7 +43,6 @@ delete from NoteCategory where note_id=2;
 delete from NoteReminder where note_id=2;
 delete from UserNote where note_id=2;
 delete from Note where note_id=2;
-
 DELIMITER //
 create trigger del_note before delete on Note FOR EACH ROW Begin delete from UserNote where note_id=old.note_id; delete from NoteReminder where note_id=old.note_id; delete from NoteCategory where note_id=old.note_id; END; //
 DELIMITER ;
