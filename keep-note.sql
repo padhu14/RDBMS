@@ -22,7 +22,7 @@ CREATE TABLE CATEGORY (
     category_id INT PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL,
     category_descr VARCHAR(1000),
-    category_creation_date TIMESTAMP,
+    category_creation_date datetime,
     category_creator VARCHAR(50)
 );
 
@@ -122,25 +122,10 @@ delete from UserNote where note_id=2;
 delete from Note where note_id=2;
 
 DELIMITER //
-create trigger del_note 
-before delete on NOTE 
-FOR EACH ROW 
- BEGIN 
- delete from UserNote where note_id = old.note_id;
- DELETE FROM NoteReminder WHERE note_id = old.note_id;
- DELETE FROM NoteCategory WHERE note_id = old.note_id;
-END;
+create trigger del_note before delete on Note FOR EACH ROW Begin delete from UserNote where note_id=old.note_id; delete from NoteReminder where note_id=old.note_id; delete from NoteCategory where note_id=old.note_id; END; //
 DELIMITER ;
 delete from Note where note_id=3;
 DELIMITER //
-
-create trigger del_user
-before delete on USER 
-FOR EACH ROW 
-Begin 
-	delete from UserNote where note_id=old.user_id; 
-    delete from NoteReminder where note_id=old.user_id; 
-    delete from NoteCategory where note_id=old.user_id; 
-END; //
-
-delete from User where user_id=1;
+create trigger del_user before delete on User FOR EACH ROW Begin delete from UserNote where note_id=old.user_id; delete from NoteReminder where note_id=old.user_id; delete from NoteCategory where note_id=old.user_id; END; //
+DELIMITER ;
+delete from User where user_id="1";
