@@ -110,15 +110,16 @@ insert into NoteCategory(notecategory_id, note_id, category_id) values(3,1,3);
 INSERT INTO REMINDER(reminder_id, reminder_name, reminder_descr, reminder_type,  reminder_creator)
 values (2,'Afternoon reminder','remind me in everyday afternoon','DAILY','Rupa Devi');
 
-insert into Notereminder(notereminder_id, note_id, reminder_id) values(1,(Select note_id from NOTE where note_title= 'class notes3' ),(select reminder_id from REMINDER where reminder_name = 'Afternoon reminder'));
+insert into Notereminder(notereminder_id, note_id, reminder_id) values(1,2,2);
 
- SET SQL_SAFE_UPDATES = 0;
-
- SET FOREIGN_KEY_CHECKS=OFF;
-
-DELETE NOTE FROM NOTE inner join usernote on  NOTE.note_id = usernote.note_id where usernote.user_id = 1 ;
-
-DELETE NOTE FROM NOTE inner join NoteCategory on  NOTE.note_id = NoteCategory.note_id where NoteCategory.category_id = 1 ;
+delete from UserNote where note_id=1;
+delete from NoteReminder where note_id=1;
+delete from NoteCategory where note_id=1;
+delete from Note where note_id=1;
+delete from NoteCategory where note_id=2;
+delete from NoteReminder where note_id=2;
+delete from UserNote where note_id=2;
+delete from Note where note_id=2;
 
 DELIMITER //
 create trigger del_note 
@@ -129,7 +130,8 @@ FOR EACH ROW
  DELETE FROM NoteReminder WHERE note_id = old.note_id;
  DELETE FROM NoteCategory WHERE note_id = old.note_id;
 END;
-
+DELIMITER ;
+delete from Note where note_id=3;
 DELIMITER //
 
 create trigger del_user
@@ -140,4 +142,5 @@ Begin
     delete from NoteReminder where note_id=old.user_id; 
     delete from NoteCategory where note_id=old.user_id; 
 END; //
-    
+
+delete from User where user_id=1;
