@@ -1,64 +1,72 @@
 -- create database testdb;
 
-use testdb;
+-- use testdb;
+
+DROP TABLE IF EXISTS USER;
 
 CREATE TABLE  USER (
     user_id varchar(20) PRIMARY KEY,
     user_name VARCHAR(50) NOT NULL,
-    user_added_date TIMESTAMP,
+    user_added_date datetime,
     user_password VARCHAR(50),
     user_mobile NUMERIC(10)
 );
 
+DROP TABLE IF EXISTS NOTE;
 CREATE TABLE NOTE (
-    note_id INT PRIMARY KEY,
-    note_title VARCHAR(100) NOT NULL,
+    note_id varchar(20) PRIMARY KEY,
+    note_title VARCHAR(100),
     note_content VARCHAR(1000),
     note_status VARCHAR(50),
-    note_creation_date TIMESTAMP
+    note_creation_date datetime
 );
 
+DROP TABLE IF EXISTS CATEGORY;
 CREATE TABLE CATEGORY (
-    category_id INT PRIMARY KEY,
+    category_id varchar(20) PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL,
     category_descr VARCHAR(1000),
     category_creation_date datetime,
     category_creator VARCHAR(50)
 );
 
+DROP TABLE IF EXISTS REMINDER;
 CREATE TABLE REMINDER (
-    reminder_id INT PRIMARY KEY,
+    reminder_id varchar(20) PRIMARY KEY,
     reminder_name VARCHAR(100) NOT NULL,
     reminder_descr VARCHAR(1000),
     reminder_type VARCHAR(50),
-    reminder_creation_date TIMESTAMP,
+    reminder_creation_date datetime,
     reminder_creator VARCHAR(50)
 );
 
+DROP TABLE IF EXISTS NoteCategory;
 CREATE TABLE NoteCategory (
-    notecategory_id INT PRIMARY KEY,
-    note_id INT,
-    category_id INT,
+    notecategory_id varchar(20) PRIMARY KEY,
+    note_id varchar(20),
+    category_id varchar(20),
     FOREIGN KEY (note_id)
         REFERENCES NOTE (note_id),
     FOREIGN KEY (category_id)
         REFERENCES CATEGORY (category_id)
 );
 
+DROP TABLE IF EXISTS Notereminder;
 CREATE TABLE Notereminder (
-    notereminder_id INT PRIMARY KEY,
-    note_id INT,
-    reminder_id INT,
+    notereminder_id varchar(20) PRIMARY KEY,
+    note_id varchar(20),
+    reminder_id varchar(20),
     FOREIGN KEY (note_id)
         REFERENCES NOTE (note_id),
     FOREIGN KEY (reminder_id)
         REFERENCES REMINDER (reminder_id)
 );
 
+DROP TABLE IF EXISTS usernote;
 CREATE TABLE usernote (
-    usernote_id INT PRIMARY KEY,
+    usernote_id varchar(20) PRIMARY KEY,
     user_id varchar(20),
-    note_id INT,
+    note_id varchar(20),
     FOREIGN KEY (note_id)
         REFERENCES NOTE (note_id),
     FOREIGN KEY (user_id)
