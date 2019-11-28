@@ -105,7 +105,7 @@ insert into usernote(usernote_id, user_id, note_id) values(2,1,2);
 
 INSERT into NOTE(note_id, note_title, note_content, note_status) values (3,'class notes3','fsdafjbkfjbkdbfkdbfkdbfksdbfkdsbfjkbdjfbd','in-progress');
 
-insert into NoteCategory(notecategory_id, note_id, category_id) values(3,1,3);
+insert into NoteCategory(notecategory_id, note_id, category_id) values(3,1,1);
 
 INSERT INTO REMINDER(reminder_id, reminder_name, reminder_descr, reminder_type,  reminder_creator)
 values (2,'Afternoon reminder','remind me in everyday afternoon','DAILY','Rupa Devi');
